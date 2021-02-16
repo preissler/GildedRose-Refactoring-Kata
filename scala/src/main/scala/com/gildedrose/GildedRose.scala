@@ -16,20 +16,7 @@ import GildedRose._
       } else {
         if (items(i).quality < 50) {
           items(i)= increaseQualityItem(items(i))
-
-          if (items(i).name == backstage) {
-            if (items(i).sellIn < 11) {
-              if (items(i).quality < 50) {
-                items(i)= increaseQualityItem(items(i))
-              }
-            }
-
-            if (items(i).sellIn < 6) {
-              if (items(i).quality < 50) {
-                items(i)= increaseQualityItem(items(i))
-              }
-            }
-          }
+          increaseQualityBySellIn(i)
         }
       }
 
@@ -37,22 +24,36 @@ import GildedRose._
         items(i)= decreaseSellInItem(items(i))
       }
 
-      if (items(i).sellIn < 0) {
-        if (items(i).name != agedBrie) {
-          if (items(i).name != backstage) {
-            if (items(i).quality > 0) {
-              if (items(i).name != sulfuras) {
-                items(i)= decreaseQualityItem(items(i))
-              }
-            }
-          } else {
-            items(i)= reduceTotalQuality( items(i))
+      updateQualityByLowSellIn(i)
+    }
+  }
+
+  private def updateQualityByLowSellIn(i: Int) = {
+    if (items(i).sellIn < 0) {
+      if (items(i).name != agedBrie) {
+        if (items(i).name != backstage) {
+          if ((items(i).quality > 0) && (items(i).name != sulfuras)) {
+              items(i) = decreaseQualityItem(items(i))
           }
         } else {
-          if (items(i).quality < 50) {
-            items(i)= increaseQualityItem(items(i))
-          }
+          items(i) = reduceTotalQuality(items(i))
         }
+      } else {
+        if (items(i).quality < 50) {
+          items(i) = increaseQualityItem(items(i))
+        }
+      }
+    }
+  }
+
+  private def increaseQualityBySellIn(i: Int) = {
+    if (items(i).name == backstage && items(i).quality < 50) {
+      if (items(i).sellIn < 11) {
+          items(i) = increaseQualityItem(items(i))
+      }
+
+      if (items(i).sellIn < 6) {
+          items(i) = increaseQualityItem(items(i))
       }
     }
   }
