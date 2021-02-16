@@ -14,7 +14,7 @@ import GildedRose._
           }
         }
       } else {
-        if (items(i).quality < 50) {
+        if (items(i).quality < middleQuality) {
           items(i)= increaseQualityItem(items(i))
           increaseQualityBySellIn(i)
         }
@@ -39,7 +39,7 @@ import GildedRose._
           items(i) = reduceTotalQuality(items(i))
         }
       } else {
-        if (items(i).quality < 50) {
+        if (items(i).quality < middleQuality) {
           items(i) = increaseQualityItem(items(i))
         }
       }
@@ -47,12 +47,12 @@ import GildedRose._
   }
 
   private def increaseQualityBySellIn(i: Int) = {
-    if (items(i).name == backstage && items(i).quality < 50) {
-      if (items(i).sellIn < 11) {
+    if (items(i).name == backstage && items(i).quality < middleQuality) {
+      if (items(i).sellIn < lowSellIn) {
           items(i) = increaseQualityItem(items(i))
       }
 
-      if (items(i).sellIn < 6) {
+      if (items(i).sellIn < veryLowSellIn) {
           items(i) = increaseQualityItem(items(i))
       }
     }
@@ -62,6 +62,10 @@ object GildedRose{
   val agedBrie = "Aged Brie"
   val backstage =  "Backstage passes to a TAFKAL80ETC concert"
   val sulfuras = "Sulfuras, Hand of Ragnaros"
+
+  val middleQuality = 50
+  val lowSellIn = 11
+  val veryLowSellIn = 6
 
 
   def increaseQualityItem(item: Item) =  Item(item.name, item.sellIn, item.quality + 1)
